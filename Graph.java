@@ -11,12 +11,14 @@ public class Graph extends JPanel {
     // Variables
     FileInputStream fileRead;
     long length;
+    String stockName;
 
     // Constructor
-    public Graph(FileInputStream fr, long length) {
+    public Graph(FileInputStream fr, long length, String stockName) {
         setSize(500, 500);
         this.fileRead = fr;
         this.length = length;
+        this.stockName = stockName;
     }
 
     @Override
@@ -26,6 +28,7 @@ public class Graph extends JPanel {
         int y1 = 500;
         int x2 = 1;
         int y2 = 499;
+        gr.drawString(stockName, 0, 10);
         for (int i = 0; i < 500; i++) {
             gr.setStroke(new BasicStroke(3));
             gr.setColor(Color.BLUE);
