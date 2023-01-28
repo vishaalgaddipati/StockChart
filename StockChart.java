@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Dimension;
 
+// Use array data structure to store data
 public class StockChart {
     
     // Variables
