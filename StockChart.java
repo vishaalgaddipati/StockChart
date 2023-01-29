@@ -22,12 +22,28 @@ public class StockChart {
 
     // Functions
     static float findMin(String[][] stockData, int col) {
-        float min = 0;
-
+        float min = Float.parseFloat(stockData[0][col]);
+        float f = 0;
+        for (int i = 0; i < stockData.length - 1; i++) {
+            f = Float.parseFloat(stockData[i][col]);
+            if (f < min) {
+                min = f;
+            }
+        }
         return min;
     }
 
-    static float findMax();
+    static float findMax(String[][] stockData, int col) {
+        float max = Float.parseFloat(stockData[0][col]);
+        float f = 0;
+        for (int i = 0; i < stockData.length - 1; i++) {
+            f = Float.parseFloat(stockData[i][col]);
+            if (f > max) {
+                max = f;
+            }
+        }
+        return max;
+    }
 
 
     static String[][] getStockData() {
@@ -41,6 +57,7 @@ public class StockChart {
             in.nextLine();
             lines++;
         }
+        in.close();
         return lines;
     }
 
@@ -74,10 +91,12 @@ public class StockChart {
         // }
         String[][] currStockData = getStockData();
         currStockData = readCSV(file1, length);
-        for (int i = 0; i < length - 1; i++) {
-                System.out.print(currStockData[i][0] + " " + currStockData[i][4]);
-                System.out.println();
-        }
+        // for (int i = 0; i < length - 1; i++) {
+        //         System.out.print(currStockData[i][0] + " " + currStockData[i][4]);
+        //         System.out.println();
+        // }
+        System.out.println(findMin(currStockData, 4));
+        System.out.println(findMax(currStockData, 4));
         fileRead.close();
 
         JFrame frame = new JFrame(stockName);                     // creating frame
