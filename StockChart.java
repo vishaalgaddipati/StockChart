@@ -45,7 +45,6 @@ public class StockChart {
         return max;
     }
 
-
     static String[][] getStockData() {
         return stockData;
     }
@@ -81,6 +80,7 @@ public class StockChart {
         Scanner in = new Scanner(System.in); // reading in the stock name 
         System.out.print("Enter stock: ");
         String stockName = in.nextLine();
+        in.close();
 
         //File file1 = new File("Data/GOOG.csv");
         File file1 = new File("Data/" + stockName + ".csv");   // reading csv file
@@ -95,18 +95,20 @@ public class StockChart {
         //         System.out.print(currStockData[i][0] + " " + currStockData[i][4]);
         //         System.out.println();
         // }
-        System.out.println(findMin(currStockData, 4));
-        System.out.println(findMax(currStockData, 4));
+        // System.out.println(findMin(currStockData, 4));
+        // System.out.println(findMax(currStockData, 4));
         fileRead.close();
+        float min = findMin(currStockData, 4);
+        float max = findMax(currStockData, 4);
 
-        JFrame frame = new JFrame(stockName);                     // creating frame
+        JFrame frame = new JFrame("StockChart");                     // creating frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Graph testGraph = new Graph(fileRead, length, stockName);
+        Graph testGraph = new Graph(fileRead, length, stockName, min, max, stockData, 4);
         //JLabel emptyLabel = new JLabel();
         frame.getContentPane().add(testGraph);
         //frame.setSize(500, 500);
         //frame.setBounds(10, 10, 500, 500);
-        frame.getContentPane().setPreferredSize(new Dimension(500, 500));
+        frame.getContentPane().setPreferredSize(new Dimension((int)length, (int)max+50));
         frame.pack();
         frame.setVisible(true);
 
