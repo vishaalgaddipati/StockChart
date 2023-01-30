@@ -37,20 +37,24 @@ public class Graph extends JPanel {
         float ySlope =  (yOffset - windowSize.height)/(int)(max-min);
         int prevPoint = ((int)(Float.parseFloat(stockData[0][col])));
         int xOffset = 50;
+
         prevPoint = windowSize.height - 100 + (int)((prevPoint-min)*ySlope);
+
         gr.drawString(stockName, 0, 10);
         gr.drawString("Min: " + min, 0, 20);
         gr.drawString("Max: " + max, 0, 30);
+
         for (int i = 1; i < length - 1; i++) {
-            //int currPoint = (int)(windowSize.height-(Float.parseFloat(stockData[i][col])*(windowSize.height-100)/(max-min)));
             int currPoint = (int)(Float.parseFloat(stockData[i][col]));
             currPoint = windowSize.height - 100 + (int)((currPoint-min)*ySlope);
             gr.setStroke(new BasicStroke(1));
             gr.setColor(Color.BLUE);
+
             int newX1 = ((windowSize.width - xOffset)*(i))/(int)length + xOffset;
             int newX2 = ((windowSize.width - xOffset)*(i + 1))/(int)length + xOffset;
             int newY1 = prevPoint;
             int newY2 = currPoint;
+            
             gr.drawLine(newX1, newY1, newX2, newY2);
             prevPoint = currPoint;
         }

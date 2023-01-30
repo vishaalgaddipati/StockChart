@@ -82,21 +82,13 @@ public class StockChart {
         String stockName = in.nextLine();
         in.close();
 
-        //File file1 = new File("Data/GOOG.csv");
         File file1 = new File("Data/" + stockName + ".csv");   // reading csv file
         FileInputStream fileRead = new FileInputStream(file1);
         long length = getFileLength(file1);
-        // for (int i = 0; i < length; i++) {
-        //     System.out.print((char)fileRead.read());
-        // }
+
         String[][] currStockData = getStockData();
         currStockData = readCSV(file1, length);
-        // for (int i = 0; i < length - 1; i++) {
-        //         System.out.print(currStockData[i][0] + " " + currStockData[i][4]);
-        //         System.out.println();
-        // }
-        // System.out.println(findMin(currStockData, 4));
-        // System.out.println(findMax(currStockData, 4));
+
         fileRead.close();
         float min = findMin(currStockData, 4);
         float max = findMax(currStockData, 4);
@@ -106,9 +98,7 @@ public class StockChart {
         Graph testGraph = new Graph(fileRead, length, stockName, min, max, stockData, 4);
         //JLabel emptyLabel = new JLabel();
         frame.getContentPane().add(testGraph);
-        //frame.setSize(500, 500);
-        //frame.setBounds(10, 10, 500, 500);
-        frame.getContentPane().setPreferredSize(new Dimension(1200, 600)); // (int)length, (int)max+50
+        frame.getContentPane().setPreferredSize(new Dimension(1200, 600));
         frame.pack();
         frame.setVisible(true);
 
