@@ -32,19 +32,26 @@ public class Graph extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D gr = (Graphics2D) g;
-        int x1 = 0; //0
-        int y1 = (int)max+50; //500
-        int x2 = 1; //1
-        int y2 = y1 - 1; //499
-        int prevPoint = 0;
+        Dimension windowSize = getSize();
+        float ySlope =  0 - windowSize.height/(int)(max-min);
+        int prevPoint = ((int)(Float.parseFloat(stockData[0][col])));
+        System.out.println(prevPoint + " " + windowSize.height + " " + ySlope);
+        prevPoint = windowSize.height + (int)((prevPoint-min)*ySlope);
         gr.drawString(stockName, 0, 10);
         gr.drawString("Min: " + min, 0, 20);
         gr.drawString("Max: " + max, 0, 30);
-        for (int i = 0; i < length - 1; i++) {
-            int currPoint = (int)Float.parseFloat(stockData[i][col]);
+        System.out.println(prevPoint);
+        for (int i = 1; i < length - 1; i++) {
+            //int currPoint = (int)(windowSize.height-(Float.parseFloat(stockData[i][col])*(windowSize.height-100)/(max-min)));
+            int currPoint = (int)(Float.parseFloat(stockData[i][col]));
+            currPoint = windowSize.height + (int)((currPoint-min)*ySlope);
             gr.setStroke(new BasicStroke(1));
             gr.setColor(Color.BLUE);
-            gr.drawLine(x1 + i, y1 - prevPoint, x2 + i, y2 - currPoint);
+            int newX1 = (windowSize.width*(i))/(int)length;
+            int newX2 = (windowSize.width*(i + 1))/(int)length;
+            int newY1 = prevPoint;
+            int newY2 = currPoint;
+            gr.drawLine(newX1, newY1, newX2, newY2);
             prevPoint = currPoint;
         }
     }

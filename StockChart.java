@@ -108,7 +108,7 @@ public class StockChart {
         frame.getContentPane().add(testGraph);
         //frame.setSize(500, 500);
         //frame.setBounds(10, 10, 500, 500);
-        frame.getContentPane().setPreferredSize(new Dimension((int)length, (int)max+50));
+        frame.getContentPane().setPreferredSize(new Dimension(1200, 600)); // (int)length, (int)max+50
         frame.pack();
         frame.setVisible(true);
 
