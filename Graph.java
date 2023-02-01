@@ -9,7 +9,6 @@ import java.awt.*;
 
 public class Graph extends JPanel {
     // Variables
-    FileInputStream fileRead;
     long length;
     String stockName;
     float min;
@@ -18,19 +17,29 @@ public class Graph extends JPanel {
     int col; // the col for data
 
     // Constructor
-    public Graph(FileInputStream fr, long length, String stockName, float min, float max, String[][] stockData, int col) {
-        setSize(500, 500);
-        this.fileRead = fr;
+    public Graph() {
+        this.length = 0;
+        this.stockName = null;
+        this.min = 0;
+        this.max = 0;
+        this.col = 0;
+    }
+
+    public void setStockData(long length, String stockName, float min, float max, String[][] stockData, int col) {
         this.length = length;
         this.stockName = stockName;
         this.min = min;
         this.max = max;
         this.stockData = stockData;
         this.col = col;
+        this.updateUI();
     }
 
     @Override
     public void paintComponent(Graphics g) {
+        if (length == 0 || min == 0 || max == 0) {
+            return;
+        }
         Graphics2D gr = (Graphics2D) g;
         Dimension windowSize = getSize();
         int yOffsetTop = (int)(10 * windowSize.height/100);
