@@ -45,8 +45,8 @@ public class Graph extends JPanel {
         gr.fillRect(0, 0, windowSize.width, windowSize.height);
         gr.setColor(Color.WHITE);
         gr.drawString(stockName, 0, 10);
-        gr.drawString("Min: " + min, 0, 20);
-        gr.drawString("Max: " + max, 0, 30);
+        gr.drawString("High: " + max, 0, 20);
+        gr.drawString("Low: " + min, 0, 30);
         gr.drawLine(xOffset, windowSize.height - yOffsetBot, windowSize.width, windowSize.height - yOffsetBot); // x axis
         gr.drawLine(xOffset, windowSize.height - yOffsetBot, xOffset, yOffsetTop); // y axis
         

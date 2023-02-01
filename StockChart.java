@@ -2,9 +2,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import javax.security.auth.kerberos.KerberosCredMessage;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.*;
 import java.util.Scanner;
 
 // Use array data structure to store data
@@ -98,6 +107,16 @@ public class StockChart {
         Graph testGraph = new Graph(fileRead, length, stockName, min, max, stockData, 4);
         //JLabel emptyLabel = new JLabel();
         frame.getContentPane().add(testGraph);
+        JPanel frame2 = new JPanel();
+        JLabel label = new JLabel("Input stock symbol: ");
+        JTextField textBox = new JTextField();
+        textBox.setPreferredSize(new Dimension(50, 20));
+        JButton button = new JButton("Enter");
+        frame2.add(label);
+        frame2.add(textBox);
+        frame2.add(button);
+        frame2.setLayout(new FlowLayout());
+        frame.getContentPane().add(frame2, BorderLayout.SOUTH);
         frame.getContentPane().setPreferredSize(new Dimension(1200, 600));
         frame.pack();
         frame.setVisible(true);
