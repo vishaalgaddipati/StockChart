@@ -3,7 +3,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.security.auth.kerberos.KerberosCredMessage;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
