@@ -15,6 +15,12 @@ import java.awt.Dimension;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Scanner;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 // Use array data structure to store data
 public class StockChart {
@@ -23,6 +29,8 @@ public class StockChart {
     static String[][] stockData;
     static JTextField textBox;
     static Graph testGraph;
+    static URL stockURL;
+    static String stockName;
     //String downloadURL = "https://query1.finance.yahoo.com/v7/finance/download/GOOG?period1=1643320177&period2=1674856177&interval=1d&events=history&includeAdjustedClose=true";
     
 
@@ -86,9 +94,18 @@ public class StockChart {
         return stockData;
     }
 
-    static void actionSetup() throws IOException, FileNotFoundException {
-        String stockName = textBox.getText();
-        File file1 = new File("Data/" + stockName + ".csv");   // reading csv file
+    static void actionSetup() throws IOException, FileNotFoundException, Exception {
+        stockName = textBox.getText();
+
+        URL currURL = generateUrl();
+        if (new File(stockName + ".csv").exists() == true) {
+
+        }
+        else {
+            downloadFile(currURL, stockName + ".csv"); // downloading the csv into user's computer from web
+        }
+        
+        File file1 = new File(stockName + ".csv");   // reading csv file
         FileInputStream fileRead = new FileInputStream(file1);
         long length = getFileLength(file1);
         
@@ -100,6 +117,17 @@ public class StockChart {
         float max = findMax(currStockData, 4);
 
         testGraph.setStockData(length, stockName, min, max, stockData, 4);
+    }
+
+    static URL generateUrl() throws MalformedURLException {
+        stockURL = new URL("https://query1.finance.yahoo.com/v7/finance/download/" + stockName + "?period1=1643704725&period2=1675240725&interval=1d&events=history&includeAdjustedClose=true");
+        return stockURL;
+    }
+
+    public static void downloadFile(URL url, String fileName) throws Exception {
+        try (InputStream in = url.openStream()) {
+            Files.copy(in, Paths.get(fileName));
+        }
     }
 
     // main class
@@ -137,7 +165,7 @@ public class StockChart {
                 try {
                     actionSetup();
                 }
-                catch (IOException e1) {
+                catch (Exception e1) {
                     e1.printStackTrace();
                 }
             }  
