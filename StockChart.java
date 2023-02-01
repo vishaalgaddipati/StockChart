@@ -1,24 +1,10 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.io.*;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Scanner;
+import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -30,9 +16,7 @@ public class StockChart {
     static JTextField textBox;
     static Graph testGraph;
     static URL stockURL;
-    static String stockName;
-    //String downloadURL = "https://query1.finance.yahoo.com/v7/finance/download/GOOG?period1=1643320177&period2=1674856177&interval=1d&events=history&includeAdjustedClose=true";
-    
+    static String stockName;    
 
     // Constructor
     public StockChart(String name) {
@@ -98,14 +82,11 @@ public class StockChart {
         stockName = textBox.getText();
 
         URL currURL = generateUrl();
-        if (new File(stockName + ".csv").exists() == true) {
-
-        }
-        else {
+        if (new File(stockName + ".csv").exists() != true) {
             downloadFile(currURL, stockName + ".csv"); // downloading the csv into user's computer from web
         }
         
-        File file1 = new File(stockName + ".csv");   // reading csv file
+        File file1 = new File(stockName + ".csv"); // reading csv file
         FileInputStream fileRead = new FileInputStream(file1);
         long length = getFileLength(file1);
         
@@ -132,32 +113,16 @@ public class StockChart {
 
     // main class
     public static void main(String[] args) throws IOException, FileNotFoundException {
-        // Scanner in = new Scanner(System.in); // reading in the stock name 
-        // System.out.print("Enter stock: ");
-        // String stockName = in.nextLine();
-        // in.close();
-
-        // File file1 = new File("Data/" + stockName + ".csv");   // reading csv file
-        // FileInputStream fileRead = new FileInputStream(file1);
-        // long length = getFileLength(file1);
-
-        // String[][] currStockData = getStockData();
-        // currStockData = readCSV(file1, length);
-
-        // fileRead.close();
-        // float min = findMin(currStockData, 4);
-        // float max = findMax(currStockData, 4);
-
-        JFrame frame = new JFrame("StockChart");                     // creating frame
+        JFrame frame = new JFrame("StockChart"); // creating frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         testGraph = new Graph();
 
-        //JLabel emptyLabel = new JLabel();
         frame.getContentPane().add(testGraph);
         JPanel frame2 = new JPanel();
         JLabel label = new JLabel("Input stock symbol: ");
         textBox = new JTextField();
         textBox.setPreferredSize(new Dimension(50, 20));
+        
         JButton button = new JButton("Enter");
         ActionListener action = new ActionListener() {
             @Override
@@ -170,6 +135,7 @@ public class StockChart {
                 }
             }  
         };
+        
         button.addActionListener(action);
         frame2.add(label);
         frame2.add(textBox);
@@ -180,6 +146,5 @@ public class StockChart {
         frame2.getRootPane().setDefaultButton(button);
         frame.pack();
         frame.setVisible(true);
-
     }
 }

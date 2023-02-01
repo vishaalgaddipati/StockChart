@@ -1,10 +1,4 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import javax.swing.JPanel;
-// import java.awt.Graphics;
-// import java.awt.Graphics2D;
-// import java.awt.BasicStroke;
 import java.awt.*;
 
 public class Graph extends JPanel {
@@ -25,6 +19,7 @@ public class Graph extends JPanel {
         this.col = 0;
     }
 
+    // Functions
     public void setStockData(long length, String stockName, float min, float max, String[][] stockData, int col) {
         this.length = length;
         this.stockName = stockName;
@@ -39,6 +34,7 @@ public class Graph extends JPanel {
     public void paintComponent(Graphics g) {
         if (length == 0 || min == 0 || max == 0) {
             return;
+        
         }
         Graphics2D gr = (Graphics2D) g;
         Dimension windowSize = getSize();
