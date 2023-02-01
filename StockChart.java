@@ -64,7 +64,7 @@ public class StockChart {
     }
 
     static String[][] readCSV(File file, long length) throws FileNotFoundException {
-        //Split the CSV file into an array using .split()
+        // Split the CSV file into an array using .split()
         Scanner in = new Scanner(file);
         String[] header = in.nextLine().split(","); // nextLine() skips white space
         int size = header.length;
