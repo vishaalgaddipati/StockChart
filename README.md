@@ -1,5 +1,5 @@
 # StockChart
-Stock chart app utilizing data structures, GUI, and downloads of CSV files in Java.
+Stock chart app created in Java utilizing data structures, GUI, and downloads of CSV files.
 1. Download the code.
 2. Run "javac *.java" in terminal.
 3. Run "java StockChart" in terminal.
