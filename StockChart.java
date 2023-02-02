@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -52,56 +53,60 @@ public class StockChart {
         return stockData;
     }
 
-    static long getFileLength(File file) throws FileNotFoundException {
-        Scanner in = new Scanner(file);
+    static long getBufferLength(URL currURL) throws IOException {
+        URLConnection connection = currURL.openConnection();
+        InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+        BufferedReader bufferedReader = new BufferedReader(reader);
         long lines = 0;
-        while(in.hasNext()) {
-            in.nextLine();
+        while(bufferedReader.readLine() != null) {
             lines++;
         }
-        in.close();
+        bufferedReader.close();
         return lines;
     }
 
-    static String[][] readCSV(File file, long length) throws FileNotFoundException {
-        // Split the CSV file into an array using .split()
-        Scanner in = new Scanner(file);
-        String[] header = in.nextLine().split(","); // nextLine() skips white space
-        int size = header.length;
-        stockData = new String[(int)length][size];
-        int i = 0;
-        while(in.hasNext()) {     // loop scanning csv line by line
-            stockData[i] = in.nextLine().split(","); // setting row in stockData to csv array
-            i++;
+    static String[][] readCSVBuffer(URL currURL, long length) throws IOException {
+            // Split the CSV file into an array using .split()
+            URLConnection connection = currURL.openConnection();
+            InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String[] header = bufferedReader.readLine().split(","); // nextLine() skips white space
+            int size = header.length;
+            stockData = new String[(int)length][size];
+            int i = 0;
+            String line;
+            while((line = bufferedReader.readLine()) != null) { // loop scanning csv line by line
+                stockData[i] = line.split(","); // setting row in stockData to csv array
+                i++;
+            }
+            bufferedReader.close();
+            return stockData;
         }
-        in.close();
-        return stockData;
-    }
 
     static void actionSetup() throws IOException, FileNotFoundException, Exception {
         stockName = textBox.getText();
 
         URL currURL = generateUrl();
-        if (new File(stockName + ".csv").exists() != true) {
-            downloadFile(currURL, stockName + ".csv"); // downloading the csv into user's computer from web
-        }
-        
-        File file1 = new File(stockName + ".csv"); // reading csv file
-        FileInputStream fileRead = new FileInputStream(file1);
-        long length = getFileLength(file1);
+        long length = getBufferLength(currURL);
         
         String[][] currStockData = getStockData();
-        currStockData = readCSV(file1, length);
+        currStockData = readCSVBuffer(currURL, length);
         
-        fileRead.close();
         float min = findMin(currStockData, 4);
         float max = findMax(currStockData, 4);
 
         testGraph.setStockData(length, stockName, min, max, stockData, 4);
     }
 
-    static URL generateUrl() throws MalformedURLException {
-        stockURL = new URL("https://query1.finance.yahoo.com/v7/finance/download/" + stockName + "?period1=1643704725&period2=1675240725&interval=1d&events=history&includeAdjustedClose=true");
+    static URL generateUrl() throws MalformedURLException {        
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        cal.add(Calendar.YEAR, -1);
+        Date lastYear = cal.getTime();
+        String period1 = String.valueOf(lastYear.getTime()).substring(0, 10);
+        String period2 = String.valueOf(today.getTime()).substring(0, 10);
+        
+        stockURL = new URL("https://query1.finance.yahoo.com/v7/finance/download/" + stockName + "?period1=" + period1 + "&period2=" + period2 +"&interval=1d&events=history&includeAdjustedClose=true");
         return stockURL;
     }
 

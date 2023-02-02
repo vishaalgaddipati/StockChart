@@ -34,8 +34,8 @@ public class Graph extends JPanel {
     public void paintComponent(Graphics g) {
         if (length == 0 || min == 0 || max == 0) {
             return;
-        
         }
+        
         Graphics2D gr = (Graphics2D) g;
         Dimension windowSize = getSize();
         int yOffsetTop = (int)(10 * windowSize.height/100);
